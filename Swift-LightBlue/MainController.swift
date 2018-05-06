@@ -59,7 +59,7 @@ class MainController: UIViewController, UITableViewDelegate, UITableViewDataSour
     // MARK: custom funcstions
     func initAll() {
         print("MainController --> initAll")
-        self.title = "LightBlue"
+        self.title = "BonBon"
     }
 
     // MARK: callback functions
@@ -151,7 +151,15 @@ class MainController: UIViewController, UITableViewDelegate, UITableViewDataSour
     // MARK: BluetoothDelegate 
     func didDiscoverPeripheral(_ peripheral: CBPeripheral, advertisementData: [String : AnyObject], RSSI: NSNumber) {
         if !nearbyPeripherals.contains(peripheral) {
-            nearbyPeripherals.append(peripheral)
+            if(peripheral.name == "xCandy Hotel") {
+                nearbyPeripherals.append(peripheral);
+                //bluetoothManager.connectPeripheral(peripheral)
+            }
+            if(peripheral.name == "Candy Hotel") {
+                nearbyPeripherals.append(peripheral)
+                bluetoothManager.connectPeripheral(peripheral)
+            }
+            //nearbyPeripherals.append(peripheral)
             nearbyPeripheralInfos[peripheral] = ["RSSI": RSSI, "advertisementData": advertisementData as AnyObject]
         } else {
             nearbyPeripheralInfos[peripheral]!["RSSI"] = RSSI

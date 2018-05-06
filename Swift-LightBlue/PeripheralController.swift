@@ -9,7 +9,7 @@
 import UIKit
 import CoreBluetooth 
 
-class PeripheralController : UIViewController, UITableViewDelegate, UITableViewDataSource, BluetoothDelegate {
+class PeripheralController : UIViewController, UITableViewDelegate, UITableViewDataSource, BluetoothDelegate, UIWebViewDelegate {
     
     fileprivate let bluetoothManager = BluetoothManager.getInstance()
     fileprivate var showAdvertisementData = false
@@ -25,10 +25,43 @@ class PeripheralController : UIViewController, UITableViewDelegate, UITableViewD
     @IBOutlet var tableViewHeight: NSLayoutConstraint!
     @IBOutlet var dataTableView: UITableView!
     
+    var writeType: CBCharacteristicWriteType?
+    var harryCharacter : CBCharacteristic?;
     
     override func viewDidLoad() {
         super.viewDidLoad()
         initAll()
+        
+        let webV    = UIWebView()
+        webV.frame  = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
+        //http://172.32.0.243
+        // https://apple.com
+        
+        webV.loadRequest(NSURLRequest(url: NSURL(string: "https://app.getbonbon.co/puzzle/index.html")! as URL) as URLRequest)
+        URLCache.shared.removeAllCachedResponses()
+        URLCache.shared.diskCapacity = 0
+        URLCache.shared.memoryCapacity = 0
+        webV.delegate = self
+        self.view.addSubview(webV);
+
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        
+        self.navigationController?.setNavigationBarHidden(true, animated: animated)
+    }
+    
+    func webView(_ webView: UIWebView, shouldStartLoadWith request: URLRequest, navigationType: UIWebViewNavigationType) -> Bool {
+        //print("request.url?.absoluteString webView", request.url?.absoluteString);
+        if(request.url?.absoluteString.contains("foobar") == true){
+            print("webView call back");
+            let hexString = "8B1F021C01";
+            let data = hexString.dataFromHexadecimalString()
+            self.bluetoothManager.writeValue(data: data!, forCharacteristic: harryCharacter!, type: .withResponse)
+        }
+        
+        return true
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -38,7 +71,7 @@ class PeripheralController : UIViewController, UITableViewDelegate, UITableViewD
     
     // MARK: custom functions
     func initAll() {
-        self.title = "Peripheral"
+        self.title = "BonBon"
         advertisementDataKeys = ([String](lastAdvertisementData!.keys)).sorted()
         bluetoothManager.discoverCharacteristics()
         services = bluetoothManager.connectedPeripheral?.services
@@ -167,7 +200,12 @@ class PeripheralController : UIViewController, UITableViewDelegate, UITableViewD
             print("Click at section: \((indexPath as NSIndexPath).section), row: \((indexPath as NSIndexPath).row)")
             let controller = CharacteristicController()
             controller.characteristic = characteristicsDic[services![(indexPath as NSIndexPath).section - 1].uuid]![(indexPath as NSIndexPath).row]
-            self.navigationController?.pushViewController(controller, animated: true)
+            
+//            var hexString = "8B1F021C05";
+//            let data = hexString.dataFromHexadecimalString()
+//            self.bluetoothManager.writeValue(data: data!, forCharacteristic: controller.characteristic!, type: .withResponse)
+
+            //self.navigationController?.pushViewController(controller, animated: true)
         }
     }
     
@@ -182,6 +220,12 @@ class PeripheralController : UIViewController, UITableViewDelegate, UITableViewD
     func didDiscoverCharacteritics(_ service: CBService) {
         print("Service.characteristics:\(service.characteristics)")
         characteristicsDic[service.uuid] = service.characteristics
+        print("service.uuid",service.characteristics?.count);
+        harryCharacter = service.characteristics![1];
+//        var hexString = "8B1F021C05";
+//        let data = hexString.dataFromHexadecimalString()
+//        self.bluetoothManager.writeValue(data: data!, forCharacteristic: harryCharacter!, type: .withResponse)
+        
         reloadTableView()
     }
     

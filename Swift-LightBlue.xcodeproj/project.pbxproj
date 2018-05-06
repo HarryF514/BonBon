@@ -315,7 +315,7 @@
 				TargetAttributes = {
 					6CDD915B1C35964400DBC2E2 = {
 						CreatedOnToolsVersion = 7.2;
-						DevelopmentTeam = 4R7J4L6EG2;
+						DevelopmentTeam = XPL87BVWUU;
 						LastSwiftMigration = 0800;
 					};
 					6CDD916F1C35964400DBC2E2 = {
@@ -552,10 +552,11 @@
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				DEVELOPMENT_TEAM = XPL87BVWUU;
 				INFOPLIST_FILE = "Swift-LightBlue/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = "com.pluto-y.Swift-LightBlue";
+				PRODUCT_BUNDLE_IDENTIFIER = com.harry.test.test2;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "Swift-LightBlue/Swift-LightBlue-Bridging-Header.h";
@@ -572,10 +573,11 @@
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				DEVELOPMENT_TEAM = XPL87BVWUU;
 				INFOPLIST_FILE = "Swift-LightBlue/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = "com.pluto-y.Swift-LightBlue";
+				PRODUCT_BUNDLE_IDENTIFIER = com.harry.test.test2;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "Swift-LightBlue/Swift-LightBlue-Bridging-Header.h";
